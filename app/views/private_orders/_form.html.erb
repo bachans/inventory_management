@@ -1,0 +1,17 @@
+<%= form_for(@private_order) do |f| %>
+  <% if @private_order.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@private_order.errors.count, "error") %> prohibited this private_order from being saved:</h2>
+
+      <ul>
+      <% @private_order.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

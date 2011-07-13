@@ -1,0 +1,47 @@
+<h1>Music Library Store</h1>
+<h2>Your Shopping Cart</h2>
+
+<table style="width:500px; border-collapse:collapse;">
+	<tr>
+		<td>&nbsp;</td>
+		<td>Album</td>
+		<td>Artist</td>
+		<td>Quantity</td>
+		<td>Price</td>
+		<td>&nbsp;</td>
+	</tr>
+	<% total_price = 0 %>
+	<% for item in @cart_items%>
+		<% row_color=cycle("CCCCCC", "FFFFFF")%>
+		<tr style="background: #<%= row_color%>;">
+			<td valign="top" align='left' style='margin:0px;padding:0px;'><%= image_tag(item.album.image_path, :size => '20x20')%></td>
+			<td valign="top" align='middle'>
+				<p style="font-size:14px; font-weight:bold;margin:0px;padding:0px;"><%= item.album.title%></p>
+			</td>
+			<td valign="top" align='middle' style='margin:0px;padding:0px;'>
+				<p style="font-size:12px; font-weight:bold;margin:0px;padding:0px;"><%= item.album.artist.name if item.album.artist%></p>
+			</td>
+			<td valign="top" align='middle' style='margin:0px;padding:0px;'>
+				<p style="font-size:12px;margin:0px;padding:0px;"><%= item.quantity%></p>
+			</td>
+			<td valign="top" align='middle' style='margin:0px;padding:0px;'>
+				<p style="font-size:12px;margin:0px;padding:0px;"><%= number_to_currency(item.quantity * item.album.price)%></p>
+			</td>
+			<td>
+				<a id="1" data-confirm="Are you sure?" href="/removeprivateitem?id=<%= item.album.id%>">Remove item</a>
+			</td>
+		</tr>
+		<% item_price = item.quantity * item.album.price %>
+		<% total_price += item_price %>
+	<% end %>
+	<tr>
+		<td>&nbsp;</td>
+		<td>Shopping Cart Total</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td><%= number_to_currency(total_price)%></td>
+	</tr>
+</table>
+
+<%= link_to('Continue Shopping', privatealbums_path)%>&nbsp; | &nbsp;<%= link_to('Empty Cart', emptyprivatecart_path, :confirm => 'Are you sure?')%><br />
+<%= link_to('Checkout', privatecheckout_path)%>

@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+<h3>Showing Album : <%= @album.title %></h3>
+<table>
+	<tr>
+		<td>Title :</td><td><%= @album.title %></td>
+	</tr>
+	<tr>
+		<td>Release Date :</td><td><%= @album.release_date %></td>
+	</tr>
+	<tr>
+		<td>Genre :</td><td><%= @album.genre %></td>
+	</tr>
+	<tr>
+		<td>Artist :</td><td><%= link_to @album.artist.name, @album.artist %></td>
+	</tr>
+	<tr>
+		<td>Image :</td><td><%= image_tag(@album.image_path, :size =>'90x90') %></td>
+	</tr>
+	<tr>
+		<td>Price :</td><td><%= @album.price %></td>
+	</tr>
+	<tr>
+		<td>Created At :</td><td><%= @album.created_at %></td>
+	</tr>
+	<tr>
+		<td>Updated At :</td><td><%= @album.updated_at %></td>
+	</tr>
+</table>
+
+<%= link_to 'Edit', edit_album_path(@album) %> |
+<%= link_to 'Back', albums_path %>

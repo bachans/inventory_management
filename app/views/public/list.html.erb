@@ -1,0 +1,40 @@
+<h1>Musi Library Store</h1>
+
+<table style="width: 500px; border-collapse:collapse;">
+	
+<% @albums.each do |album| %>
+	<% row_color = cycle("CCCCCC", "FFFFFF")%>
+	<tr style="background:#<%= row_color%>;">
+		<td rowspan = "2" ><%= image_tag(album.image_path, :size =>'90x90')%></td>
+		<td>
+			<p style="font-size : 14px; font-weight:bold;"><%= album.title %></p>
+		</td>
+		<td>
+			<p style="font-size : 12px; font-weight:bold;"><%= album.artist.name if album.artist %></p>
+		</td>
+		<td>
+			<p style="font-size:12px"><%= number_to_currency(album.price) %></p>
+		</td>
+	</tr>
+	<tr style="background:#<%= row_color%>;">
+		<td valign='top'><p style="font-size : 12px;">Released: <%= album.release_date.strftime("%A %B %d, %Y") %></p></td>
+		<td valign='top'><p style="font-size : 12px;"><%= album.genre %></p></td>
+		<td valign='top'>
+			<% if session[:cart_flag] == 0 %>
+				<p style="font-size : 12px;"><a href="/addtocart?id=<%= album.id%>">Add to cart</a></p>
+			<% else %>
+				
+				<% @cart_items.each do |cart_item| %>
+					<% if cart_item.album_id == album.id%>
+						<p style="font-size : 12px;"><a href="/addtocart?id=<%= album.id%>">Add to cart</a></p>
+					<% end %>
+				<% end %>	 
+					
+				
+				
+			<% end %>
+		</td>
+	</tr>
+<% end %>
+</table>
+The time is now <%= Time.now.strftime("%I:%M on %A %B %d, %Y")%>

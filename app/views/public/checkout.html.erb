@@ -1,0 +1,89 @@
+<% @cart = session[:cart] %>
+<h1>Music Library Store</h1>
+<h2>Checkout</h2>
+
+<table style="width:500px; border-collapse:collapse;">
+	<tr>
+		<td>&nbsp;</td>
+		<td>Album</td>
+		<td>Artist</td>
+		<td>Quantity</td>
+		<td>Price</td>
+	</tr>
+	<% for item in @cart.items%>
+		<% row_color=cycle("CCCCCC", "FFFFFF")%>
+		<tr style="background: #<%= row_color%>;">
+			<td valign="top" align='left' style='margin:0px;padding:0px;'><%= image_tag(item.album.image_path, :size => '20x20')%></td>
+			<td valign="top" align='middle'>
+				<p style="font-size:14px; font-weight:bold;margin:0px;padding:0px;"><%= item.album.title%></p>
+			</td>
+			<td valign="top" align='middle' style='margin:0px;padding:0px;'>
+				<p style="font-size:12px; font-weight:bold;margin:0px;padding:0px;"><%= item.album.artist.name if item.album.artist%></p>
+			</td>
+			<td valign="top" align='middle' style='margin:0px;padding:0px;'>
+				<p style="font-size:12px;margin:0px;padding:0px;"><%= item.quantity%></p>
+			</td>
+			<td valign="top" align='middle' style='margin:0px;padding:0px;'>
+				<p style="font-size:12px;margin:0px;padding:0px;"><%= number_to_currency(item.price)%></p>
+			</td>
+		</tr>
+	<% end %>
+	<tr>
+		<td>&nbsp;</td>
+		<td>Shopping Cart Total</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td><%= number_to_currency(@cart.total_price)%></td>
+	</tr>
+</table>
+
+<%= link_to('Continue Shopping', list_path)%>&nbsp; <br />
+<br />
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<form action='' method='post' id='buy_items' name='buy_items'  onsubmit='javascript:checkPaymentType();'>
+	<input type="hidden" name="cmd" value="_cart" /> 
+	<input type="hidden" name="upload" value="1" /> 
+	<input type="hidden" name="business" value="bmindfirecs@gmail.com" /> 
+	<% count = 0 %>
+	<% for item in @cart.items%>
+		<% count += 1 %>
+		<input type="hidden" id="item_name_<%= count%>" name="item_name_<%= count%>" value="<%= item.album.title %> by <%= item.album.artist.name %>" /> 
+		<input type="hidden" id="amount_<%= count%>" name="amount_<%= count%>" value="<%= item.album.price %>" />
+		<input type="hidden" id="quantity_<%= count%>" name="quantity_<%= count%>" value="<%= item.quantity%>" />
+	<% end %>
+	
+	<input type="hidden" id="return" name="return" value="" />
+	<input type="hidden" name="cancel_return" value='http://localhost:3000/checkout' />
+	<input type="hidden" name="notify_url" value="http://localhost:3000/checkout">
+	<input type="hidden" id="currency_code" name="currency_code" value="USD" />
+	
+	<table>
+		<tr>
+			<td>First Name : </td>
+			<td><input type='text' id='first_name' name='customer[first_name]' value='' /></td>
+		</tr>
+		<tr>
+			<td>Last Name : </td>
+			<td><input type='text' id='last_name' name='customer[last_name]' value='' /></td>
+		</tr>
+		<tr>
+			<td>Zip Code : </td>
+			<td><input type='text' id='zip_code' name='customer[zip_code]' value='' /></td>
+		</tr>	
+	</table>
+
+	<input type='submit'>
+</form>
+
+<script>
+function checkPaymentType(){
+	var first_name = $('#first_name').val();
+	var last_name = $('#last_name').val();
+	var zip_code = $('#zip_code').val();
+	
+	var return_url = 'http://localhost:3000/saveorder?first_name='+first_name+'&last_name='+last_name+'&zip_code='+zip_code;
+	$("#return").val(return_url);
+	$("#buy_items").attr("action", "https://www.sandbox.paypal.com/cgi-bin/webscr");
+	$("form").submit();
+}
+</script>

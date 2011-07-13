@@ -1,0 +1,26 @@
+
+<%= form_for(@user) do |f| %>
+	<!-- 
+		showing the error message while registration
+	-->
+	<%= render 'shared/error_messages' %>
+	<div class="field">
+		<%= f.label :name %><br />
+		<%= f.text_field :name %>
+	</div>
+	<div class="field">
+		<%= f.label :password %><br />
+		<%= f.password_field :password %>
+	</div>
+	<div class="field">
+		<%= f.label :password_confirmation, "Confirmation" %><br />
+		<%= f.password_field :password_confirmation %>
+	</div>
+	
+	<div id="captcha">
+	<%= render '/shared/recaptcha' %>
+	</div>
+	<div class="actions">
+		<%= f.submit "Sign up" %>
+	</div>
+<% end %>

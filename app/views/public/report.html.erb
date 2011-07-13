@@ -1,0 +1,75 @@
+<table width="500px">
+	<tr>
+		<th align='left'>Order Details</th>
+	</tr>
+	<tr>
+		<td align='left'>Order No. : <%= @order.id %></td>
+	</tr>
+	<tr>
+		<td align='left'>Invoice No. : <%= @order.invoice %></td>
+	</tr>
+	<tr>
+		<td align='left'>Ordered : <%= @order.created_at %></td>
+	</tr>
+	<tr>
+		<th align='left'>Customer Details</th>
+	</tr>
+	<tr>
+		<td align='left'>First Name : <%= @customer.first_name %></td>
+	</tr>
+	<tr>
+		<td align='left'>Last Name : <%= @customer.last_name %></td>
+	</tr>
+	<tr>
+		<td align='left'>Zip Code : <%= @customer.zip_code %></td>
+	</tr>
+	<tr>
+		<th align='left'>Purchased Items</th>
+	</tr>
+	<tr>
+		<td valign='top' align='left'>
+			<table width="400px" style="border-collapse:collapse;">
+				<tr>
+					<th>&nbsp;</th>
+					<th>Album</th>
+					<th>Artist</th>
+					<th>Quantity</th>
+					<th>Price</th>
+					<th>&nbsp;</th>
+				</tr>
+				<% for line_item in @line_item%>
+					<% row_color=cycle("CCCCCC", "FFFFFF")%>
+					<tr style="background: #<%= row_color%>;">
+						<td valign="top" align='left' style='margin:0px;padding:0px;'><%= image_tag(line_item.album.image_path, :size => '20x20')%></td>
+						<td valign="top" align='middle'>
+							<p style="font-size:14px; font-weight:bold;margin:0px;padding:0px;"><%= line_item.album.title%></p>
+						</td>
+						<td valign="top" align='middle' style='margin:0px;padding:0px;'>
+							<p style="font-size:12px; font-weight:bold;margin:0px;padding:0px;"><%= line_item.album.artist.name if line_item.album.artist%></p>
+						</td>
+						<td valign="top" align='middle' style='margin:0px;padding:0px;'>
+							<p style="font-size:12px;margin:0px;padding:0px;"><%= line_item.quantity%></p>
+						</td>
+						<td valign="top" align='middle' style='margin:0px;padding:0px;'>
+							<p style="font-size:12px;margin:0px;padding:0px;"><%= number_to_currency(line_item.price)%></p>
+						</td>
+						<td>
+							&nbsp;
+						</td>
+					</tr>
+				<% end %>
+					<tr>
+					<th colspan="4" align="right">Total Price :</th>
+					
+					<th align='middle'>
+						<% sum =0 %>
+						<% for line_item in @line_item%>
+							<% sum += line_item.price %>
+						<% end %>
+						<%= number_to_currency(sum)%>
+					</th>
+					<th>&nbsp;</th>
+			</table>	
+		</td>
+	</tr>
+</table>

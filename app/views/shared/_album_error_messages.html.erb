@@ -1,0 +1,23 @@
+<!--
+@album.errors => return array
+array.any? if blank returns false else returns true
+-->
+<% if @album.errors.any? %>
+	<div id="error_explanation">
+		<!--
+			populize is the method to set the text as plural as per the integer value
+		-->
+		<h2><%= pluralize(@album.errors.count, "error") %>
+		prohibited this album from being saved:</h2>
+		<p>There were problems with the following fields:</p>
+		<ul>
+		
+		<!--
+		@album.errors.full_messages => return the array of full error messages
+		-->
+		<% @album.errors.full_messages.each do |msg| %>
+			<li><%= msg %></li>
+		<% end %>
+		</ul>
+	</div>
+<% end %>

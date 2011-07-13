@@ -1,0 +1,23 @@
+<p id="notice"><%= notice %></p>
+<h3>Showing the records of <%= @artist.name%></h3>
+<table>
+	<tr>
+		<td>Name : </td><td><%= @artist.name%></td>
+	</tr>
+	<tr>
+		<td>Active Years : </td><td><%= @artist.active_years%></td>
+	</tr>
+	<tr>
+		<td valign="top">Albums : </td>
+		<td valign="top">
+			<% @artist_albums.each do |album|%>
+				<%= link_to album.title, album %><br />
+			<% end %>
+		</td>
+	</tr>
+	<tr>
+		<td>Biography : </td><td><%= @artist.biography%></td>
+	</tr>
+</table>
+<%= link_to 'Edit', edit_artist_path(@artist) %> |
+<%= link_to 'Back', artists_path %>

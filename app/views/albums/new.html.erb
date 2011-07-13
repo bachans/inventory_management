@@ -1,0 +1,61 @@
+<h1>New album</h1>
+
+<!-- <%= render 'form' %> -->
+<!--
+<form action='/albums' method='post' class='new_album' id='new_album'>
+	<table>
+		<tr>
+			<td>title :</td>
+			<td><input type="text" value="" name="album[title]" id='album_title' /></td>
+		</tr>
+		<tr>
+			<td>artist_id :</td>
+			<td><input type="text" value="" name="album[artist_id]" id='album_artist_id' /></td>
+		</tr>
+		<tr>
+			<td colsapn="2">
+				<input id="album_submit" name="commit" type="submit" value="Add" />
+			</td>
+		</tr>
+	</table>
+</form>
+-->
+<%= form_for(@album) do |f| %>
+	<%= render 'shared/album_error_messages', :object => f.object %>
+	<div class="field">
+		<%= f.label :title %><br />
+		<%= f.text_field :title %>
+	</div>
+	<div class="field">
+		<%= f.label :release_date %><br />
+		<%= f.text_field :release_date %>
+	</div>
+	<div class="field">
+		<%= f.label :genre %><br />
+		<%= f.text_field :genre %>
+	</div>
+	<div class="field">
+		<%= f.label :artist %><br />
+		<% @artists = Artist.all%>
+		<select name='album[artist_id]' id='album_artist' class='album_artist'>
+			<option value='0' selected='selected'>select</option>
+			<% @artists.each do |artist| %>
+				<option value="<%= artist.id%>"><%= artist.name%></option>
+			<% end %>
+		</select>
+	</div>
+	<div class="field">
+		<%= f.label :price %><br />
+		<%= f.text_field :price %>
+	</div>
+	<div class="field">
+		<%= f.label :image_path %><br />
+		<%= f.text_field :image_path %>
+	</div>
+	<div class="actions">
+		<%= f.submit "Add" %>
+	</div>
+<% end %>
+
+
+<%= link_to 'Back', albums_path %>

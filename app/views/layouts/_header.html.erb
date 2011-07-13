@@ -1,0 +1,50 @@
+<style>
+ul {
+list-style-type: none;
+margin: auto;
+}
+li{
+	float:left
+}
+ul a {
+padding-right: 32px;
+padding-left: 32px;
+text-decoration: none;
+font-family: Georgia, "Times New Roman", Times, serif;
+font-size: 21px;
+color: #371C1C;
+}	
+.header{
+	float:left;
+	width:100%;
+}
+.yield{
+	float:left;
+}
+</style>
+<div class='header'>
+
+<%= session[:id] %>
+	<ul class='header'>
+		<li><%= link_to "Home", root_path %></li>
+		<% if signed_in? %>
+			
+			<% if session[:user_type] == 'admin' %>
+				<li><%= link_to "Users", users_path %></li>
+				<li><%= link_to "Albums", albums_path %></li>
+				<li><%= link_to "Artists", artists_path %></li>
+				<li><%= link_to "Customer", customers_path %></li>
+				<li><%= link_to "Order", orders_path %></li>
+			<% else %>
+				<li><%= link_to "Albums", privatealbums_path %></li>			
+			<% end %>
+			<li><%= link_to "Settings", edit_user_path(current_user) %></li>
+			<li><%= link_to "Sign out", signout_path, :method => :delete %></li>
+		<% else %>
+			<li><%= link_to "list", list_path %></li>
+			<li><%= link_to "Sign in", signin_path %></li>
+			<li><%= link_to "Sign up now!", signup_path %></li>
+		<% end %> 
+	</ul>
+
+</div>

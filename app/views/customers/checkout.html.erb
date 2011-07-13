@@ -1,0 +1,61 @@
+<h1>Music Library Store</h1>
+<h2>Checkout</h2>
+<% @cart = session[:cart] %>
+<table style="width:500px; border-collapse:collapse;">
+	<tr>
+		<td>&nbsp;</td>
+		<td>Album</td>
+		<td>Artist</td>
+		<td>Quantity</td>
+		<td>Price</td>
+	</tr>
+	<% for item in @cart.items%>
+		<% row_color=cycle("CCCCCC", "FFFFFF")%>
+		<tr style="background: #<%= row_color%>;">
+			<td valign="top" align='left' style='margin:0px;padding:0px;'><%= image_tag(item.album.image_path, :size => '20x20')%></td>
+			<td valign="top" align='middle'>
+				<p style="font-size:14px; font-weight:bold;margin:0px;padding:0px;"><%= item.album.title%></p>
+			</td>
+			<td valign="top" align='middle' style='margin:0px;padding:0px;'>
+				<p style="font-size:12px; font-weight:bold;margin:0px;padding:0px;"><%= item.album.artist.name if item.album.artist%></p>
+			</td>
+			<td valign="top" align='middle' style='margin:0px;padding:0px;'>
+				<p style="font-size:12px;margin:0px;padding:0px;"><%= item.quantity%></p>
+			</td>
+			<td valign="top" align='middle' style='margin:0px;padding:0px;'>
+				<p style="font-size:12px;margin:0px;padding:0px;"><%= number_to_currency(item.price)%></p>
+			</td>
+		</tr>
+	<% end %>
+	<tr>
+		<td>&nbsp;</td>
+		<td>Shopping Cart Total</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td><%= number_to_currency(@cart.total_price)%></td>
+	</tr>
+</table>
+
+<%= link_to('Continue Shopping', list_path)%>&nbsp; <br />
+<br />
+<%= form_for(@customer) do |f| %>
+	<div class="field">
+		<%= f.label :first_name %><br />
+		<%= f.text_field :first_name %>
+	</div>
+	<div class="field">
+		<%= f.label :last_name %><br />
+		<%= f.text_field :last_name %>
+	</div>
+	<div class="field">
+		<%= f.label :zip_code %><br />
+		<%= f.text_field :zip_code %>
+	</div>
+	<div class="field">
+		<%= f.label :credit_card %><br />
+		<%= f.text_field :credit_card %>
+	</div>
+	<div class="actions">
+		<%= f.submit "Place Order" %>
+	</div>	
+<% end %>

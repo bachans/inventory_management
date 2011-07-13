@@ -1,0 +1,59 @@
+<table width="500px">
+	<tr>
+		<th align='left'>Order Details</th>
+	</tr>
+	<tr>
+		<td align='left'>Invoice No. : <%= @invoice_report.invoice_number %></td>
+	</tr>
+	<tr>
+		<td align='left'>Ordered : <%= @invoice_report.created_at %></td>
+	</tr>
+	<tr>
+		<th align='left'>Purchased Items</th>
+	</tr>
+	<tr>
+		<td valign='top' align='left'>
+			<table style="width:500px; border-collapse:collapse;">
+				<tr>
+					<td>&nbsp;</td>
+					<td>Album</td>
+					<td>Artist</td>
+					<td>Quantity</td>
+					<td>Price</td>
+					<td>&nbsp;</td>
+				</tr>
+				<% total_price = 0 %>
+				<% for order in @private_orders%>
+					<% row_color=cycle("CCCCCC", "FFFFFF")%>
+					<tr style="background: #<%= row_color%>;">
+						<td valign="top" align='left' style='margin:0px;padding:0px;'><%= image_tag(order.album.image_path, :size => '20x20')%></td>
+						<td valign="top" align='middle'>
+							<p style="font-size:14px; font-weight:bold;margin:0px;padding:0px;"><%= order.album.title%></p>
+						</td>
+						<td valign="top" align='middle' style='margin:0px;padding:0px;'>
+							<p style="font-size:12px; font-weight:bold;margin:0px;padding:0px;"><%= order.album.artist.name if order.album.artist%></p>
+						</td>
+						<td valign="top" align='middle' style='margin:0px;padding:0px;'>
+							<p style="font-size:12px;margin:0px;padding:0px;"><%= order.quantity%></p>
+						</td>
+						<td valign="top" align='middle' style='margin:0px;padding:0px;'>
+							<p style="font-size:12px;margin:0px;padding:0px;"><%= number_to_currency(order.price)%></p>
+						</td>
+						<td>
+							
+						</td>
+					</tr>
+					
+					<% total_price += order.price %>
+				<% end %>
+				<tr>
+					<td>&nbsp;</td>
+					<td>Shopping Cart Total</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td><%= number_to_currency(total_price)%></td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>
